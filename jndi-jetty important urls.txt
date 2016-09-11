@@ -1,0 +1,103 @@
+http://reference1.mapinfo.com/software/mapinfo_manager/en/1_1/security/jndi/jettyglobal.html
+http://www.codejava.net/servers/tomcat/configuring-jndi-datasource-for-database-connection-pooling-in-tomcat
+http://www.journaldev.com/2513/tomcat-datasource-jndi-example-java
+https://wiki.eclipse.org/Jetty/Howto/Configure_JNDI_Datasource
+https://examples.javacodegeeks.com/enterprise-java/jms/jms-client-example/
+http://activemq.apache.org/tomcat.html
+
+
+
+
+----starting jetty server----
+java -Djetty.port=8888 -DSTOP.PORT=8888 -DSTOP.KEY=stop_jetty -jar start.jar --lib=~/jetty-distribution-9.2.18.v20160721/lib/mysql-connector-java-5.1.39.jar
+----stopping jetty server----
+java -DSTOP.PORT=8888 -DSTOP.KEY=stop_jetty -jar start.jar --stop
+
+
+
+----for oracle----
+Implements javax.sql.DataSource, javax.sql.ConnectionPoolDataSource
+
+
+<New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg>
+    <Arg>jdbc/DSTest</Arg>
+    <Arg>
+      <New class="oracle.jdbc.pool.OracleDataSource">
+        <Set name="DriverType">thin</Set>
+        <Set name="URL">jdbc:oracle:thin:@fmsswdb1:10017:otcd</Set>
+        <Set name="User">xxxx</Set>
+        <Set name="Password">xxxx</Set>
+        <Set name="connectionCachingEnabled">true</Set>
+        <Set name="connectionCacheProperties">
+          <New class="java.util.Properties">
+            <Call name="setProperty">
+              <Arg>MinLimit</Arg>
+              <Arg>5</Arg>
+            </Call>
+            <!-- put the other properties in here too -->
+          </New>
+        </Set>
+      </New>
+    </Arg>
+  </New>
+------------------
+
+----for postgresql----
+Implements javax.sql.DataSource
+
+  <New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource">
+     <Arg></Arg>
+     <Arg>jdbc/DSTest</Arg>
+     <Arg>
+        <New class="org.postgresql.ds.PGSimpleDataSource">
+           <Set name="User">user</Set>
+           <Set name="Password">pass</Set>
+           <Set name="DatabaseName">dbname</Set>
+           <Set name="ServerName">localhost</Set>
+           <Set name="PortNumber">5432</Set>
+        </New>
+     </Arg>
+  </New>
+
+Implements javax.sql.ConnectionPoolDataSource
+
+ 
+  <New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource">
+     <Arg></Arg>
+     <Arg>jdbc/DSTest</Arg>
+     <Arg>
+        <New class="org.postgresql.ds.PGConnectionPoolDataSource">
+           <Set name="User">user</Set>
+           <Set name="Password">pass</Set>
+           <Set name="DatabaseName">dbname</Set>
+           <Set name="ServerName">localhost</Set>
+           <Set name="PortNumber">5432</Set>
+ 
+        </New>
+     </Arg>
+  </New>
+----------------------
+
+----for mysql----
+Implements javax.sql.DataSource, javax.sql.ConnectionPoolDataSource
+
+ 
+  <New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource">
+     <Arg></Arg>
+     <Arg>jdbc/DSTest</Arg>
+     <Arg>
+        <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+           <Set name="Url">jdbc:mysql://localhost:3306/databasename</Set>
+           <Set name="User">user</Set>
+           <Set name="Password">pass</Set>
+        </New>
+     </Arg>
+    </New>
+-----------------
+
+javax.jms.ConnectionFactory
+javax.jms.Queue
+javax.jms.Topic
+
+
