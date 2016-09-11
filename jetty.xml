@@ -107,7 +107,7 @@
     <!-- configuration for connecting to the database.               -->
     <!-- =========================================================== -->
     <New id="MyDB" class="org.eclipse.jetty.plus.jndi.Resource">
-      <Arg><Ref id="Server"/></Arg>
+      <Arg><Ref id="Server1"/></Arg>
       <Arg>jdbc/MyDB</Arg>
       <Arg>
         <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
